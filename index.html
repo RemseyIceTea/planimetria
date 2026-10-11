@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planimetria: Trójkąty – Kompendium na 100%</title>
+  <!-- Google Fonts & KaTeX -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.15);
+      --accent-secondary: #818cf8;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --danger: #f87171;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 5rem;
+    }
+
+    header {
+      background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(11, 15, 25, 0) 100%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 3.5rem 1.5rem 2.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .badges {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .badge {
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .badge.secondary {
+      background: rgba(129, 140, 248, 0.1);
+      color: var(--accent-secondary);
+      border-color: rgba(129, 140, 248, 0.25);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 15, 25, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      overflow-x: auto;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    nav a:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1.25rem;
+    }
+
+    section {
+      margin-bottom: 3.5rem;
+      scroll-margin-top: 5rem;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 0.75rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .formula-box {
+      background: rgba(56, 189, 248, 0.05);
+      border-left: 4px solid var(--accent);
+      padding: 1rem 1.25rem;
+      border-radius: 0 10px 10px 0;
+      margin: 1rem 0;
+      font-size: 1.05rem;
+    }
+
+    .alert {
+      background: rgba(251, 191, 36, 0.08);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin: 1.25rem 0;
+      color: #fde68a;
+      font-size: 0.95rem;
+    }
+
+    .alert-title {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
+      color: #fef08a;
+    }
+
+    /* Diagramy SVG */
+    .svg-container {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      margin: 1rem 0;
+    }
+
+    svg text {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+    }
+
+    /* Akordeony zadań */
+    details {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    details[open] {
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    summary {
+      padding: 1.1rem 1.25rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.02);
+      user-select: none;
+    }
+
+    summary:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--accent);
+    }
+
+    summary::after {
+      content: "➕";
+      font-size: 0.85rem;
+      transition: transform 0.2s;
+    }
+
+    details[open] summary::after {
+      content: "➖";
+    }
+
+    .solution {
+      padding: 1.25rem;
+      border-top: 1px solid var(--card-border);
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .step {
+      margin-bottom: 0.75rem;
+    }
+
+    .step-number {
+      font-weight: 700;
+      color: var(--accent);
+      margin-right: 0.5rem;
+    }
+
+    .result-badge {
+      display: inline-block;
+      margin-top: 0.5rem;
+      background: rgba(52, 211, 153, 0.15);
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      color: var(--success);
+      padding: 0.35rem 0.8rem;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    ul, ol {
+      padding-left: 1.5rem;
+      margin: 0.75rem 0;
+    }
+
+    li {
+      margin-bottom: 0.4rem;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 4rem;
+      border-top: 1px solid var(--card-border);
+      padding-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badges">
+      <span class="badge">Klasa 2 Technikum</span>
+      <span class="badge secondary">Poziom Podstawowy</span>
+      <span class="badge">MATeMAtyka 1 (Edycja 2024)</span>
+    </div>
+    <h1>Planimetria: Trójkąty</h1>
+    <p class="subtitle">Interaktywna notatka i pełne kompendium do sprawdzianu z tematów: Miary kątów, Trójkąty charakterystyczne, Przystawanie, Punkty szczególne oraz Twierdzenie Pitagorasa.</p>
+  </header>
+
+  <nav>
+    <a href="#teoria">📐 Teoria i Wzory</a>
+    <a href="#charakterystyczne">⚡ Trójkąty 30-60-90 & 45-45-90</a>
+    <a href="#punkty">🎯 Punkty szczególne</a>
+    <a href="#zadania-lekcja">📝 Zadania z lekcji</a>
+    <a href="#sprawdzian">⏱️ Próbny sprawdzian</a>
+    <a href="#pulapki">⚠️ Pułapki na 100%</a>
+  </nav>
+
+  <main>
+
+    <!-- SEKCJA 1: TEORIA I WZORY -->
+    <section id="teoria">
+      <h2 class="section-title">📐 1. Twierdzenie Pitagorasa i Trójkąty Filarowe</h2>
+      
+      <div class="grid-2">
+        <div class="card">
+          <h3>Twierdzenie Pitagorasa</h3>
+          <p>Działa <strong>wyłącznie</strong> w trójkątach prostokątnych:</p>
+          <div class="formula-box">
+            $$a^2 + b^2 = c^2$$
+          </div>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            gdzie $a, b$ to przyprostokątne, a $c$ to przeciwprostokątna (zawsze najdłuższy bok leżący naprzeciw kąta $90^\circ$).
+          </p>
+          <div style="margin-top: 1rem; font-size: 0.9rem;">
+            <strong>Potęgowanie pierwiastków (nie trać punktów!):</strong>
+            <ul>
+              <li>$(2\sqrt{5})^2 = 4 \cdot 5 = 20$</li>
+              <li>$(3\sqrt{2})^2 = 9 \cdot 2 = 18$</li>
+              <li>$(4\sqrt{2})^2 = 16 \cdot 2 = 32$</li>
+              <li>$(2\sqrt{7})^2 = 4 \cdot 7 = 28$</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Trójkąt Równoboczny i Równoramienny</h3>
+          <p><strong>Trójkąt równoboczny o boku $a$:</strong></p>
+          <div class="formula-box">
+            $$h = \frac{a\sqrt{3}}{2} \qquad P = \frac{a^2\sqrt{3}}{4}$$
+          </div>
+          <p><strong>Trójkąt równoramienny:</strong></p>
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">
+            Wysokość opuszczona na podstawę dzieli ją na <strong>dwie równe połowy</strong> ($\frac{a}{2}$). Tworzy dwa przystające trójkąty prostokątne:
+            $$h^2 + \left(\frac{a}{2}\right)^2 = b^2$$
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Wysokość z wierzchołka kąta prostego (Złoty wzór)</h3>
+        <p>W trójkącie prostokątnym o przyprostokątnych $a, b$ i przeciwprostokątnej $c$, wysokość $h_c$ opuszczona na $c$ wynika z porównania dwóch wzorów na pole ($P = \frac{a \cdot b}{2} = \frac{c \cdot h_c}{2}$):</p>
+        <div class="formula-box" style="border-left-color: var(--success); background: rgba(52, 211, 153, 0.05);">
+          $$h_c = \frac{a \cdot b}{c}$$
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKCJA 2: TRÓJKĄTY CHARAKTERYSTYCZNE -->
+    <section id="charakterystyczne">
+      <h2 class="section-title">⚡ 2. Trójkąty Charakterystyczne (30°-60°-90° i 45°-45°-90°)</h2>
+
+      <div class="alert">
+        <div class="alert-title">💡 Złota zasada z lekcji</div>
+        W klasie 2 na poziomie podstawowym nie musisz stosować trygonometrii ($\sin, \cos$), gdy w trójkącie widzisz kąty $30^\circ, 45^\circ$ lub $60^\circ$! Zawsze korzystaj z gotowych zależności proporcji boków.
+      </div>
+
+      <div class="grid-2">
+        <!-- 45-45-90 -->
+        <div class="card">
+          <h3>Trójkąt 45° - 45° - 90° (Połowa kwadratu)</h3>
+          <div class="svg-container">
+            <svg viewBox="0 0 200 150" width="100%" height="130">
+              <polygon points="30,120 150,120 30,20" fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+              <rect x="30" y="105" width="15" height="15" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+              <text x="90" y="140" fill="#f3f4f6" font-size="14" text-anchor="middle">a</text>
+              <text x="15" y="75" fill="#f3f4f6" font-size="14" text-anchor="middle">a</text>
+              <text x="105" y="60" fill="#38bdf8" font-size="15" font-weight="bold" text-anchor="middle">a√2</text>
+              <text x="50" y="45" fill="#94a3b8" font-size="12">45°</text>
+              <text x="125" y="112" fill="#94a3b8" font-size="12">45°</text>
+            </svg>
+          </div>
+          <ul>
+            <li>Przyprostokątne: $a$ oraz $a$</li>
+            <li>Przeciwprostokątna: $c = a\sqrt{2}$</li>
+            <li><strong>Jeśli znasz $c$:</strong> $a = \frac{c}{\sqrt{2}} = \frac{c\sqrt{2}}{2}$</li>
+          </ul>
+        </div>
+
+        <!-- 30-60-90 -->
+        <div class="card">
+          <h3>Trójkąt 30° - 60° - 90° (Połowa trójkąta równobocznego)</h3>
+          <div class="svg-container">
+            <svg viewBox="0 0 200 150" width="100%" height="130">
+              <polygon points="30,120 160,120 30,30" fill="none" stroke="#818cf8" stroke-width="2.5"/>
+              <rect x="30" y="105" width="15" height="15" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+              <text x="95" y="140" fill="#f3f4f6" font-size="14" text-anchor="middle">a√3 (naprzeciw 60°)</text>
+              <text x="15" y="80" fill="#f3f4f6" font-size="14" text-anchor="middle">a</text>
+              <text x="110" y="65" fill="#818cf8" font-size="15" font-weight="bold" text-anchor="middle">2a</text>
+              <text x="40" y="55" fill="#94a3b8" font-size="12">60°</text>
+              <text x="130" y="112" fill="#94a3b8" font-size="12">30°</text>
+            </svg>
+          </div>
+          <ul>
+            <li>Naprzeciw <strong>30°</strong>: bok najkrótszy $a$</li>
+            <li>Naprzeciw <strong>60°</strong>: bok średni $a\sqrt{3}$</li>
+            <li>Naprzeciw <strong>90°</strong>: przeciwprostokątna $2a$</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Schemat: Rozcinanie trójkąta dowolnego wysokością</h3>
+        <p>Gdy w zadaniu masz trójkąt o kątach np. $45^\circ$ i $60^\circ$ (trzeci to $75^\circ$):</p>
+        <ol>
+          <li>Opuszczasz wysokość z wierzchołka $75^\circ$ na przeciwległy bok.</li>
+          <li>Wysokość rozcina kąt $75^\circ$ na $45^\circ$ oraz $30^\circ$.</li>
+          <li>Otrzymujesz dwa trójkąty prostokątne: jeden $45^\circ-45^\circ-90^\circ$, a drugi $30^\circ-60^\circ-90^\circ$.</li>
+          <li>Wysokość jest ich wspólnym bokiem – wyliczasz ją z jednego trójkąta i wstawiasz do drugiego!</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- SEKCJA 3: PUNKTY SZCZEGÓLNE & PRZYSTAWANIE -->
+    <section id="punkty">
+      <h2 class="section-title">🎯 3. Punkty Szczególne i Przystawanie Trójkątów</h2>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Środek Ciężkości Trójkąta</h3>
+          <p>Punkt przecięcia <strong>środkowych</strong> (odcinków łączących wierzchołek ze środkiem przeciwległego boku).</p>
+          <div class="formula-box" style="border-left-color: var(--accent);">
+            Środek ciężkości dzieli każdą środkową w stosunku <strong>2 : 1</strong> licząc od wierzchołka!
+          </div>
+          <ul>
+            <li>Odległość od wierzchołka: $\frac{2}{3}$ długości środkowej</li>
+            <li>Odległość od boku (podstawy): $\frac{1}{3}$ długości środkowej</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Ortocentrum Trójkąta</h3>
+          <p>Punkt przecięcia prostych zawierających <strong>wysokości</strong> trójkąta.</p>
+          <p style="margin-top: 0.75rem;"><strong>Gdzie leży ortocentrum? (Pytania testowe!):</strong></p>
+          <ul>
+            <li>W trójkącie <strong>ostrokątnym</strong>: wewnątrz trójkąta.</li>
+            <li>W trójkącie <strong>prostokątnym</strong>: <span style="color: var(--accent); font-weight: bold;">w wierzchołku kąta prostego</span>!</li>
+            <li>W trójkącie <strong>rozwartokątnym</strong>: na zewnątrz trójkąta.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Trzy Cechy Przystawania Trójkątów</h3>
+        <p>Dwa trójkąty są przystające ($\equiv$), gdy mają identyczny kształt i wymiary:</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1rem;">
+          <div style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 8px; border: 1px solid var(--card-border);">
+            <strong style="color: var(--accent);">1. Cecha BBB</strong> (Bok-Bok-Bok)<br>
+            Wszystkie 3 boki jednego trójkąta są równe bokom drugiego trójkąta.
+          </div>
+          <div style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 8px; border: 1px solid var(--card-border);">
+            <strong style="color: var(--accent);">2. Cecha BKB</strong> (Bok-Kąt-Bok)<br>
+            Dwa boki i kąt <em>między nimi</em> są równe odpowiednim elementom drugiego trójkąta.
+          </div>
+          <div style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 8px; border: 1px solid var(--card-border);">
+            <strong style="color: var(--accent);">3. Cecha KBK</strong> (Kąt-Bok-Kąt)<br>
+            Bok i dwa kąty <em>przy nim leżące</em> są równe odpowiednim elementom drugiego trójkąta.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKCJA 4: ROZWIĄZANIA ZADAŃ ZE ZDJĘĆ -->
+    <section id="zadania-lekcja">
+      <h2 class="section-title">📝 4. Dokładne Rozwiązania Zadań z Lekcji (Twoje Zdjęcia)</h2>
+
+      <!-- ZADANIE 1 ZE ZDJĘĆ -->
+      <details>
+        <summary>Zadanie 1 (Tablica): Środek ciężkości w trójkącie równoramiennym</summary>
+        <div class="solution">
+          <p><strong>Treść:</strong> W trójkącie równoramiennym podstawa ma długość 12, a ramiona mają długość 15. Jaka jest odległość środka ciężkości tego trójkąta od jego podstawy?</p>
+          <div class="step">
+            <span class="step-number">Krok 1:</span> Wysokość $h$ dzieli podstawę na dwie równe połowy: $\frac{12}{2} = 6$.
+          </div>
+          <div class="step">
+            <span class="step-number">Krok 2:</span> Z twierdzenia Pitagorasa liczymy wysokość $h$:
+            $$h^2 + 6^2 = 15^2 \implies h^2 + 36 = 225 \implies h^2 = 189$$
+            $$h = \sqrt{189} = \sqrt{9 \cdot 21} = 3\sqrt{21}$$
+          </div>
+          <div class="step">
+            <span class="step-number">Krok 3:</span> Środek ciężkości leży w odległości $\frac{1}{3}$ środkowej (wysokości) od podstawy:
+            $$d = \frac{1}{3} \cdot 3\sqrt{21} = \sqrt{21}$$
+          </div>
+          <div class="result-badge">Odpowiedź: Odległość wynosi √21</div>
+        </div>
+      </details>
+
+      <!-- ZADANIE 2 ZE ZDJĘĆ -->
+      <details>
+        <summary>Zadanie 2 (Zeszyt & Tablica): Obwód trójkąta rozciętego na 45-45-90 i 30-60-90</summary>
+        <div class="solution">
+          <p><strong>Treść:</strong> Trójkąt z kątami $45^\circ$ i $60^\circ$. Przeciwprostokątna w lewym trójkącie prostokątnym wynosi $4\sqrt{6}$. Oblicz obwód trójkąta.</p>
+          <div class="step">
+            <span class="step-number">Krok 1:</span> W lewym trójkącie ($45^\circ-45^\circ-90^\circ$):
+            $$a\sqrt{2} = 4\sqrt{6} \implies a = \frac{4\sqrt{6}}{\sqrt{2}} = 4\sqrt{3}$$
+            Wysokość $h = 4\sqrt{3}$, a lewy fragment podstawy wynosi $4\sqrt{3}$.
+          </div>
+          <div class="step">
+            <span class="step-number">Krok 2:</span> W prawym trójkącie ($30^\circ-60^\circ-90^\circ$):
+            Wysokość $h = 4\sqrt{3}$ leży naprzeciw kąta $30^\circ$, czyli najkrótszy bok to $4\sqrt{3}$.<br>
+            Prawe ramię (przeciwprostokątna $2a$): $2 \cdot 4\sqrt{3} = 8\sqrt{3}$.<br>
+            Prawy fragment podstawy (naprzeciw $60^\circ$): $4\sqrt{3} \cdot \sqrt{3} = 4 \cdot 3 = 12$.
+          </div>
+          <div class="step">
+            <span class="step-number">Krok 3:</span> Obwód całego trójkąta:
+            $$Ob = 4\sqrt{3} + 8\sqrt{3} + 12 = 12\sqrt{3} + 12$$
+          </div>
+          <div class="result-badge">Odpowiedź: Ob = 12√3 + 12</div>
+        </div>
+      </details>
+
+      <!-- ZADANIE 6 ZE ZDJĘĆ -->
+      <details>
+        <summary>Zadanie 6 (Karta pracy): Wysokość z kąta prostego</summary>
+        <div class="solution">
+          <p><strong>Treść:</strong> W trójkącie prostokątnym przeciwprostokątna jest 3 razy dłuższa od najkrótszego boku, a długość trzeciego boku wynosi $12\sqrt{2}$. Oblicz wysokość poprowadzoną z wierzchołka kąta prostego.</p>
+          <div class="step">
+            <span class="step-number">Krok 1:</span> Oznaczenia boków: $a = x$, $c = 3x$, $b = 12\sqrt{2}$.
+            $$x^2 + (12\sqrt{2})^2 = (3x)^2 \implies x^2 + 288 = 9x^2 \implies 8x^2 = 288 \implies x^2 = 36 \implies x = 6$$
+            Boki trójkąta to: $a = 6$, $b = 12\sqrt{2}$, $c = 18$.
+          </div>
+          <div class="step">
+            <span class="step-number">Krok 2:</span> Ze wzoru na wysokość opuszczoną na przeciwprostokątną:
+            $$h = \frac{a \cdot b}{c} = \frac{6 \cdot 12\sqrt{2}}{18} = \frac{72\sqrt{2}}{18} = 4\sqrt{2}$$
+          </div>
+          <div class="result-badge">Odpowiedź: h = 4√2</div>
+        </div>
+      </details>
+
+      <!-- ZADANIE 2D ZE ZDJĘĆ -->
+      <details>
+        <summary>Zadanie 2d (Tablica): Układ trójkątów prostokątnych</summary>
+        <div class="solution">
+          <p><strong>Treść:</strong> Dwa trójkąty prostokątne o wspólnej przyprostokątnej $\sqrt{3}$. Jeden ma przeciwprostokątną $\sqrt{7}$, a drugi $2\sqrt{7}$. Oblicz różnicę podstaw $w = |BD| - |CD|$.</p>
+          <div class="step">
+            <span class="step-number">Krok 1:</span> W mniejszym trójkącie:
+            $$(\sqrt{3})^2 + |CD|^2 = (\sqrt{7})^2 \implies 3 + |CD|^2 = 7 \implies |CD| = 2$$
+          </div>
+          <div class="step">
+            <span class="step-number">Krok 2:</span> W większym trójkącie:
+            $$(\sqrt{3})^2 + |BD|^2 = (2\sqrt{7})^2 \implies 3 + |BD|^2 = 4 \cdot 7 = 28 \implies |BD|^2 = 25 \implies |BD| = 5$$
+          </div>
+          <div class="step">
+            <span class="step-number">Krok 3:</span> Szukany odcinek: $w = 5 - 2 = 3$.
+          </div>
+          <div class="result-badge">Odpowiedź: w = 3</div>
+        </div>
+      </details>
+    </section>
+
+    <!-- SEKCJA 5: PRÓBNY SPRAWDZIAN -->
+    <section id="sprawdzian">
+      <h2 class="section-title">⏱️ 5. Próbny Sprawdzian (Czas: ~50 min)</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.25rem;">Rozwiąż te zadania samodzielnie na kartce, a następnie kliknij w pasek zadania, aby sprawdzić swoje rozwiązanie.</p>
+
+      <details>
+        <summary>Zadanie 1 (1 pkt): Pytanie teoretyczne o punkty szczególne</summary>
+        <div class="solution">
+          <p><strong>Pytanie:</strong> Wskaż zdanie prawdziwe:<br>
+          A. Środek ciężkości to punkt przecięcia wysokości.<br>
+          B. Ortocentrum trójkąta prostokątnego pokrywa się z wierzchołkiem kąta prostego.<br>
+          C. Środek ciężkości dzieli środkowe w stosunku 1:1.<br>
+          D. Ortocentrum zawsze leży wewnątrz trójkąta.</p>
+          <div class="result-badge">Poprawna odpowiedź: B</div>
+          <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">Dwie wysokości trójkąta prostokątnego to jego przyprostokątne – przecinają się dokładnie w wierzchołku kąta prostego.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Zadanie 2 (1 pkt): Trójkąt równoboczny z wysokości</summary>
+        <div class="solution">
+          <p><strong>Pytanie:</strong> Wysokość trójkąta równobocznego wynosi $3\sqrt{3}\text{ cm}$. Ile wynosi jego pole?</p>
+          <div class="step">
+            $h = \frac{a\sqrt{3}}{2} = 3\sqrt{3} \implies a\sqrt{3} = 6\sqrt{3} \implies a = 6\text{ cm}$.<br>
+            $P = \frac{a^2\sqrt{3}}{4} = \frac{36\sqrt{3}}{4} = 9\sqrt{3}\text{ cm}^2$.
+          </div>
+          <div class="result-badge">Poprawna odpowiedź: P = 9√3 cm²</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Zadanie 3 (2 pkt): Twierdzenie Pitagorasa z pierwiastkami</summary>
+        <div class="solution">
+          <p><strong>Treść:</strong> W trójkącie prostokątnym przyprostokątna wynosi $\sqrt{15}$, a przeciwprostokątna wynosi $2\sqrt{6}$. Oblicz drugą przyprostokątną $x$.</p>
+          <div class="step">
+            $$x^2 + (\sqrt{15})^2 = (2\sqrt{6})^2 \implies x^2 + 15 = 4 \cdot 6 = 24 \implies x^2 = 9 \implies x = 3$$
+          </div>
+          <div class="result-badge">Odpowiedź: x = 3</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Zadanie 4 (3 pkt): Środek ciężkości w trójkącie równoramiennym</summary>
+        <div class="solution">
+          <p><strong>Treść:</strong> Podstawa wynosi 16, a ramiona mają po 17. Wyznacz odległość środka ciężkości od podstawy i od wierzchołka.</p>
+          <div class="step">
+            Połowa podstawy to 8. Wysokość: $h^2 + 8^2 = 17^2 \implies h^2 + 64 = 289 \implies h = 15$.<br>
+            Odległość od podstawy: $\frac{1}{3} \cdot 15 = 5$.<br>
+            Odległość od wierzchołka: $\frac{2}{3} \cdot 15 = 10$.
+          </div>
+          <div class="result-badge">Odpowiedź: Od podstawy: 5, od wierzchołka: 10</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Zadanie 5 (4 pkt): Trójkąt o kątach 45° i 30°</summary>
+        <div class="solution">
+          <p><strong>Treść:</strong> W trójkącie $ABC$ kąt $A = 45^\circ$, kąt $B = 30^\circ$, a bok $AC = 6\sqrt{2}$. Oblicz długość boku $BC$ oraz obwód trójkąta.</p>
+          <div class="step">
+            1. Wysokość $CD$: w trójkącie $45^\circ-45^\circ-90^\circ$ przyprostokątna to $a = \frac{6\sqrt{2}}{\sqrt{2}} = 6$. Zatem $CD = 6$ oraz $AD = 6$.<br>
+            2. W trójkącie $30^\circ-60^\circ-90^\circ$: naprzeciw $30^\circ$ leży $CD = 6$. Zatem przeciwprostokątna $BC = 2 \cdot 6 = 12$, a odcinek $BD = 6\sqrt{3}$.<br>
+            3. Cała podstawa $AB = 6 + 6\sqrt{3}$.<br>
+            4. Obwód: $Ob = 6\sqrt{2} + 12 + (6 + 6\sqrt{3}) = 18 + 6\sqrt{3} + 6\sqrt{2}$.
+          </div>
+          <div class="result-badge">Odpowiedź: BC = 12, Ob = 18 + 6√3 + 6√2</div>
+        </div>
+      </details>
+    </section>
+
+    <!-- SEKCJA 6: PUŁAPKI -->
+    <section id="pulapki">
+      <h2 class="section-title">⚠️ 6. Pułapki na Sprawdzianie (Gdzie ucinają punkty)</h2>
+      
+      <div class="card" style="border-left: 4px solid var(--danger);">
+        <ol>
+          <li><strong>Zły stosunek w środku ciężkości:</strong> Sprawdź dokładnie, czy pytają o odległość od wierzchołka ($\frac{2}{3}$), czy od podstawy ($\frac{1}{3}$). Pomyłka kosztuje cały punkt.</li>
+          <li><strong>Kąty 30° i 60°:</strong> Upewnij się, który bok leży naprzeciw którego kąta. Naprzeciw $30^\circ$ ZAWSZE leży $a$, a naprzeciw $60^\circ$ leży $a\sqrt{3}$.</li>
+          <li><strong>Brak nawiasu przy pierwiastku:</strong> Zapis $2\sqrt{5}^2$ to błąd formalny (oznacza $2 \cdot 5 = 10$). Zawsze pisz $(2\sqrt{5})^2 = 4 \cdot 5 = 20$.</li>
+          <li><strong>Niewymierność w mianowniku:</strong> W odpowiedziach nigdy nie zostawiaj ułamków typu $\frac{4}{\sqrt{3}}$ – zawsze mnóż licznik i mianownik przez pierwiastek ($\frac{4\sqrt{3}}{3}$).</li>
+        </ol>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Przygotowane dla RemseyIceTea • Repozytorium <code>planimetria</code> na GitHubie</p>
+    <p style="margin-top: 0.25rem;">Powodzenia na sprawdzianie! 🎯 Cel: 100%</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+</body>
+</html>
